@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,7 +11,7 @@
     <h2>Admin Dashboard</h2>
     <p>Confidential User Records. DO NOT SHARE!</p>
 
-    <!-- display fictional private information in a table -->
+    <!-- display fictional private information retrieved from sqlite -->
     <table border="1">
         <tr>
             <th>Name</th>
@@ -19,75 +20,15 @@
             <th>Account Balance</th>
         </tr>
 
+        <!-- create one table row for each customer returned by the database -->
+        {% for customer in customers %}
         <tr>
-            <td>Alex Carter</td>
-            <td>alex@example.com</td>
-            <td>555-0101</td>
-            <td>$1,250.00</td>
+            <td>{{ customer[0] }}</td>
+            <td>{{ customer[1] }}</td>
+            <td>{{ customer[2] }}</td>
+            <td>${{ "%.2f"|format(customer[3]) }}</td>
         </tr>
-
-        <tr>
-            <td>Jordan Smith</td>
-            <td>jordan@example.com</td>
-            <td>555-0102</td>
-            <td>$3,400.50</td>
-        </tr>
-
-        <tr>
-            <td>Morgan Lee</td>
-            <td>morgan@example.com</td>
-            <td>555-0103</td>
-            <td>$875.25</td>
-        </tr>
-
-        <tr>
-            <td>Taylor Brooks</td>
-            <td>taylor@example.com</td>
-            <td>555-0104</td>
-            <td>$2,175.80</td>
-        </tr>
-
-        <tr>
-            <td>Casey Morgan</td>
-            <td>casey@example.com</td>
-            <td>555-0105</td>
-            <td>$5,620.00</td>
-        </tr>
-
-        <tr>
-            <td>Jamie Rivera</td>
-            <td>jamie@example.com</td>
-            <td>555-0106</td>
-            <td>$940.35</td>
-        </tr>
-
-        <tr>
-            <td>Riley Thompson</td>
-            <td>riley@example.com</td>
-            <td>555-0107</td>
-            <td>$3,285.60</td>
-        </tr>
-
-        <tr>
-            <td>Sam Patel</td>
-            <td>sam@example.com</td>
-            <td>555-0108</td>
-            <td>$7,410.25</td>
-        </tr>
-
-        <tr>
-            <td>Avery Wilson</td>
-            <td>avery@example.com</td>
-            <td>555-0109</td>
-            <td>$1,680.90</td>
-        </tr>
-
-        <tr>
-            <td>Drew Anderson</td>
-            <td>drew@example.com</td>
-            <td>555-0110</td>
-            <td>$4,950.75</td>
-        </tr>
+        {% endfor %}
     </table>
 
     <!-- end the login session and return to the login page -->

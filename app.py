@@ -92,16 +92,32 @@ def home():
     return render_template("login.html", message=message)
 
 
-# create a dashboard that can only be viewed after logging in
+
+# display the admin dashboard after a successful login
 @app.route("/dashboard")
 def dashboard():
 
-    # redirect visitors who haven't logged in
+    # prevent visitors from viewing records without logging in
     if not session.get("logged_in"):
         return redirect("/")
 
-    # display the dashboard containing fictional user information
-    return render_template("dashboard.html")
+    # connect to the database
+    connection = sqlite3.connect("users.db")
+    cursor = connection.cursor()
+
+    # retrieve all fictional customer records
+    cursor.execute("""
+        SELECT name, email, phone, account_balance
+        FROM customer_records
+    """)
+
+    customers = cursor.fetchall()
+
+    # close the database connection
+    connection.close()
+
+    # send the customer records to the html page
+    return render_template("dashboard.html", customers=customers)
 
 
 # allow users to log out and clear their session

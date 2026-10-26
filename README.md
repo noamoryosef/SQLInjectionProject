@@ -8,7 +8,7 @@ python database.py
 
 # go to `ports` (to the right of `terminal`), hover over port 5000's forwarded address, click the browser icon to open the SECURE `login.html` in a new tab
 
-# working login credentials are...
+# login credentials are...
 # username:
 admin
 # password:
@@ -19,6 +19,6 @@ password
 
 # on the VULNERABLE login page, enter this for the username:
 ' OR 1=1 --
-# and for the password, LITERALLY ANYTHING (in sqlite it gets commented out so it doesn't matter what you type), you'll get "Login Successful!"
+# and for the password, LITERALLY ANYTHING (in sqlite it gets commented out so it doesn't matter what you type), you'll be taken to `dashboard.html`
 
 # back in the terminal, do Ctrl+C to stop `app.py`
