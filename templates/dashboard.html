@@ -1,0 +1,38 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Admin Dashboard</title>
+</head>
+
+<body>
+    <h2>Admin Dashboard</h2>
+    <p>Confidential User Records. DO NOT SHARE!</p>
+
+    <!-- display fictional private information retrieved from sqlite -->
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Account Balance</th>
+        </tr>
+
+        <!-- create one table row for each customer returned by the database -->
+        {% for customer in customers %}
+        <tr>
+            <td>{{ customer[0] }}</td>
+            <td>{{ customer[1] }}</td>
+            <td>{{ customer[2] }}</td>
+            <td>${{ "%.2f"|format(customer[3]) }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <!-- end the login session and return to the login page -->
+    <p><a href="/logout">Log Out</a></p>
+</body>
+
+</html>
