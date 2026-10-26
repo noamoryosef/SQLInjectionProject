@@ -7,6 +7,45 @@ from flask import Flask, render_template, request
 app = Flask(__name__)
 
 
+# create a separate login page that is intentionally vulnerable to sql injection
+@app.route("/vulnerable", methods=["GET", "POST"])
+def vulnerable_login():
+
+    # start with an empty message
+    message = ""
+
+    # check if someone submitted the login form
+    if request.method == "POST":
+
+        # read the username and password entered in the form
+        username = request.form.get("username")
+        password = request.form.get("password")
+
+        # connect to the sqlite database
+        connection = sqlite3.connect("users.db")
+        cursor = connection.cursor()
+
+        # intentionally insert user input directly into the sql query
+        # this is unsafe because input can change the meaning of the query
+        query = f"SELECT * FROM users WHERE username = '{username}' AND password = '{password}'"
+        cursor.execute(query)
+
+        # get the first matching account, if one exists
+        user = cursor.fetchone()
+
+        # close the database connection
+        connection.close()
+
+        # display whether the login succeeded or failed
+        if user:
+            message = "Login successful!"
+        else:
+            message = "Invalid username or password."
+
+    # display the same login page
+    return render_template("login.html", message=message)
+
+
 # allow homepage to be opened (GET) and receive submitted login forms (POST)
 @app.route("/", methods=["GET", "POST"])
 def home():
