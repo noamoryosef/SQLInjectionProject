@@ -2,16 +2,14 @@
 <html lang="en">
 
 <head>
-    <head>
-        <meta charset="utf-8">
-        <title>SQL Injection Security Lab</title>
-    </head>
+    <meta charset="utf-8">
+    <title>SQL Injection Security Lab</title>
 </head>
 
 <body>
     <h2>Login</h2>
 
-    <form>
+    <form method="POST">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>
 
@@ -23,7 +21,20 @@
         <br><br>
 
         <button type="submit">Log In</button>
+
+        <br>
+        <br>
+        <br>
+
+        <!-- switch between the secure and vulnerable login pages -->
+        <p>
+            <a href="/">Secure Login</a> |
+            <a href="/vulnerable">Vulnerable Login</a>
+        </p>
     </form>
+
+    <!-- display the login result sent by flask -->
+    <p>{{ message }}</p>
 </body>
 
 </html>

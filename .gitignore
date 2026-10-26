@@ -1,3 +1,4 @@
+
 # Virtual environment
 .venv/
 
@@ -12,6 +13,7 @@ __pycache__/
 # Local databases
 *.db
 *.sqlite3
+users.db
 
 #VS code personal preferences 
 .vscode/ 
