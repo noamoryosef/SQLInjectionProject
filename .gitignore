@@ -18,5 +18,3 @@ users.db
 #VS code personal preferences 
 .vscode/ 
 
-# Temporary Flask application for local scanner testing
-local_test_app/
