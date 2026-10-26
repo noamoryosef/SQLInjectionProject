@@ -20,7 +20,7 @@ cursor.execute("""
 cursor.execute("""
     INSERT OR IGNORE INTO users (username, password)
     VALUES (?, ?)
-""", ("testuser", "password123"))
+""", ("admin", "password"))
 
 # save changes to the database
 connection.commit()

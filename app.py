@@ -1,13 +1,16 @@
 
 # import tools needed to run the website and access the database
 import sqlite3
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session, redirect
 
 # create flask application
 app = Flask(__name__)
 
+# set a secret key to manage login sessions
+app.secret_key = "development-only-secret-key"
 
-# create a separate login page that is intentionally vulnerable to sql injection
+
+# create a login page that is intentionally vulnerable to sql injection
 @app.route("/vulnerable", methods=["GET", "POST"])
 def vulnerable_login():
 
@@ -36,13 +39,14 @@ def vulnerable_login():
         # close the database connection
         connection.close()
 
-        # display whether the login succeeded or failed
+        # redirect to the dashboard if login succeeds
         if user:
-            message = "Login successful!"
+            session["logged_in"] = True
+            return redirect("/dashboard")
         else:
             message = "Invalid username or password."
 
-    # display the same login page
+    # display the login page
     return render_template("login.html", message=message)
 
 
@@ -50,7 +54,7 @@ def vulnerable_login():
 @app.route("/", methods=["GET", "POST"])
 def home():
 
-    # start with an empty message to display on the page
+    # start with an empty message
     message = ""
 
     # check if someone submitted the login form
@@ -65,7 +69,7 @@ def home():
         cursor = connection.cursor()
 
         # search for a user whose username and password match
-        # the ? placeholders keep user input separate from the sql command
+        # the ? placeholders prevent sql injection
         cursor.execute(
             "SELECT * FROM users WHERE username = ? AND password = ?",
             (username, password)
@@ -77,14 +81,38 @@ def home():
         # close the database connection
         connection.close()
 
-        # check whether a matching account was found
+        # redirect to the dashboard if login succeeds
         if user:
-            message = "Login successful!"
+            session["logged_in"] = True
+            return redirect("/dashboard")
         else:
             message = "Invalid username or password."
 
     # display the login page and pass the result message to html
     return render_template("login.html", message=message)
+
+
+# create a dashboard that can only be viewed after logging in
+@app.route("/dashboard")
+def dashboard():
+
+    # redirect visitors who haven't logged in
+    if not session.get("logged_in"):
+        return redirect("/")
+
+    # display the dashboard containing fictional user information
+    return render_template("dashboard.html")
+
+
+# allow users to log out and clear their session
+@app.route("/logout")
+def logout():
+
+    # remove the login status from the session
+    session.clear()
+
+    # return to the login page
+    return redirect("/")
 
 
 # start the website when running this file
