@@ -4,7 +4,7 @@ from scanner.http_client import send_request, send_post_request
 from scanner.detector import is_login_successful
 from scanner.payloads import SQL_INJECTION_PAYLOADS
 from scanner.detector import is_login_successful, detect_sql_injection
-from scanner.report import display_summary
+from scanner.report import display_summary, display_payload_result, display_test_url, display_baseline_result
 
 # Return status code for URL
 def scan(url):
@@ -13,7 +13,7 @@ def scan(url):
 
 # Tests a login endpoint using a baseline and SQL injection payloads.
 def scan_login(url):
-    print("\nTesting URL:", url)
+    display_test_url(url)
     results = [] # Stores results of payload test for later AI analysis
 
     # Test an ordinary invalid login to establish baseline behavior.
@@ -25,8 +25,8 @@ def scan_login(url):
     baseline_response = send_post_request(url, baseline_data)
     baseline_success = is_login_successful(baseline_response)
 
-    print("Baseline Login Successful:", baseline_success)
-
+    display_baseline_result(baseline_success)
+    
     for payload in SQL_INJECTION_PAYLOADS:
         data = {
             "username": payload,
@@ -52,16 +52,7 @@ def scan_login(url):
 
         results.append(result)
 
-        print("Payload:", payload)
-        print("Status Code:", response.status_code)
-        print("Login Successful:", login_success)
-
-        if vulnerability_detected:
-            print("Potential SQL Injection Detected!")
-        else:
-            print("No authentication bypass detected.")
-
-        print()
+        display_payload_result(result)
 
     return results
 
