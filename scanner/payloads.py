@@ -2,5 +2,6 @@
 
 SQL_INJECTION_PAYLOADS = [
     "admin' -- ",
-    "' OR 1=1 -- "
+    "' OR 1=1 -- ",
+    "' OR 'a'='a' -- "
 ]
