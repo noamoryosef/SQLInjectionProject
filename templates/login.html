@@ -3,38 +3,77 @@
 
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SQL Injection Security Lab</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
-    <h2>Login</h2>
 
-    <form method="POST">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
+    <div class="login-container">
 
-        <br><br>
+        <div class="brand">
+            <div class="brand-icon">&#128737;</div>
+            <h1>Security Lab</h1>
+            <p class="subtitle">
+                SQL Injection Vulnerability Testing Environment
+            </p>
+        </div>
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
+        {% if request.path == "/vulnerable" %}
+        <div class="mode vulnerable">
+            Vulnerable Login Mode
+        </div>
+        {% else %}
+        <div class="mode secure">
+            Secure Login Mode
+        </div>
+        {% endif %}
 
-        <br><br>
+        <form method="POST">
 
-        <button type="submit">Log In</button>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username" required>
+            </div>
 
-        <br>
-        <br>
-        <br>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
 
-        <!-- switch between the secure and vulnerable login pages -->
-        <p>
-            <a href="/">Secure Login</a> |
-            <a href="/vulnerable">Vulnerable Login</a>
-        </p>
-    </form>
+            <button type="submit" class="login-button">
+                Log In
+            </button>
 
-    <!-- display the login result sent by flask -->
-    <p>{{ message }}</p>
+        </form>
+
+            {% if message %}
+        <div class="error-message">
+            {{ message }}
+        </div>
+        {% endif %}
+
+        <div class="mode-switch">
+            <p>Select Testing Mode</p>
+
+            <div class="mode-links">
+                <a href="/" class="{% if request.path == '/' %}active{% endif %}">
+                    Secure Login
+                </a>
+
+                <a href="/vulnerable" class="{% if request.path == '/vulnerable' %}active{% endif %}">
+                    Vulnerable Login
+                </a>
+            </div>
+        </div>
+
+        <div class="footer">
+            Educational Security Testing Environment
+        </div>
+
+    </div>
+
 </body>
 
 </html>
