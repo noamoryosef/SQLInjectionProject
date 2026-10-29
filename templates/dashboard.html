@@ -1,38 +1,82 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
     <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
-<body>
-    <h2>Admin Dashboard</h2>
-    <p>Confidential User Records. DO NOT SHARE!</p>
+<body class="dashboard-page">
 
-    <!-- display fictional private information retrieved from sqlite -->
-    <table border="1">
-        <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Account Balance</th>
-        </tr>
+    <div class="dashboard-container">
 
-        <!-- create one table row for each customer returned by the database -->
-        {% for customer in customers %}
-        <tr>
-            <td>{{ customer[0] }}</td>
-            <td>{{ customer[1] }}</td>
-            <td>{{ customer[2] }}</td>
-            <td>${{ "%.2f"|format(customer[3]) }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+        <!-- dashboard header -->
+        <div class="dashboard-header">
+            <div>
+                <h1>Admin Dashboard</h1>
+                <p class="dashboard-subtitle">
+                    Customer Records Management
+                </p>
+            </div>
 
-    <!-- end the login session and return to the login page -->
-    <p><a href="/logout">Log Out</a></p>
+            <!-- end the login session and return to the login page -->
+            <a href="/logout" class="logout-button">Log Out</a>
+        </div>
+
+        <!-- confidential information warning -->
+        <div class="dashboard-warning">
+            <span class="warning-icon">⚠</span>
+            <div>
+                <strong>Confidential Information</strong>
+                <p>Confidential User Records. DO NOT SHARE!</p>
+            </div>
+        </div>
+
+        <!-- customer records section -->
+        <div class="records-card">
+
+            <div class="records-header">
+                <div>
+                    <h2>Customer Records</h2>
+                    <p>Fictional customer information retrieved from SQLite</p>
+                </div>
+            </div>
+
+            <div class="table-container">
+
+                <!-- display fictional private information retrieved from sqlite -->
+                <table class="records-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Account Balance</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <!-- create one table row for each customer returned by the database -->
+                        {% for customer in customers %}
+                        <tr>
+                            <td>{{ customer[0] }}</td>
+                            <td>{{ customer[1] }}</td>
+                            <td>{{ customer[2] }}</td>
+                            <td>${{ "%.2f"|format(customer[3]) }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+        <p class="dashboard-footer">
+            SQL Injection Security Lab | Educational Testing Environment
+        </p>
+
+    </div>
+    
 </body>
-
 </html>
