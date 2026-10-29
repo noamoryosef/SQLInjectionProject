@@ -28,6 +28,7 @@ def display_payload_result(result):
     print("Payload:", result["payload"])
     print("Status Code:", result["status_code"])
     print("Login Successful:", result["login_success"])
+    print("Dashboard Access:", result["dashboard_access"])
 
     if result["vulnerability_detected"]:
         print("Potential SQL Injection Detected!")
@@ -36,11 +37,21 @@ def display_payload_result(result):
 
     print()
 
+    
+
 # Displays which URL is currently being tested.
 def display_test_url(url):
+    print("\n========== SCANNING LOGIN PAGE ==========")
     print("\nTesting URL:", url)
 
 
 # Displays the result of the normal invalid login test.
 def display_baseline_result(baseline_success):
     print("Baseline Login Successful:", baseline_success)
+
+# Displays the response when accessing the dashboard without logging in.
+def display_security_baseline(response):
+    print("\n========== SECURITY BASELINE ==========")
+    print("Dashboard Access Without Login - Status Code:", response.status_code)
+    print("Redirect Location:", response.headers.get("Location"))
+    print()

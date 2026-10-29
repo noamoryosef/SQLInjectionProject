@@ -7,6 +7,13 @@ def is_login_successful(response):
         and response.headers.get("Location") == "/dashboard"
     )
 
-# Compares normal login behavior with a payload test to detect a possible authentication bypass.
-def detect_sql_injection(baseline_success, payload_success):
-    return not baseline_success and payload_success
+# Detects a potential authentication bypass by comparing dashboard access.
+def detect_sql_injection(baseline_access, payload_access):
+    return not baseline_access and payload_access
+
+# Checks whether the scanner successfully accessed protected dashboard content.
+def is_dashboard_accessible(response):
+    return (
+        response.status_code == 200
+        and "alex@example.com" in response.text
+    )

@@ -1,12 +1,31 @@
-# File Purpose: Handles sending HTTP requests to the web application and returning responses for analysis.
+# File Purpose: Handles HTTP requests, manages sessions, and returns responses for analysis.
 import requests
 
-# Sends a GET request to a URL and returns the server's response for the scanner to analyze.
-def send_request(url):
-    response = requests.get(url, timeout=5)
+# Sends a GET request using an optional session and returns the response.
+def send_request(url, session=None):
+    client = session if session is not None else requests
+
+    response = client.get(
+        url,
+        timeout=5,
+        allow_redirects=False
+    )
+
     return response
 
-# Sends a POST request with form data and returns the server's response.
-def send_post_request(url, data):
-    response = requests.post(url, data=data, timeout=5, allow_redirects=False)
+# Sends a POST request using a session and returns the server's response.
+def send_post_request(url, data, session=None):
+    client = session if session is not None else requests
+
+    response = client.post(
+        url,
+        data=data,
+        timeout=5,
+        allow_redirects=False
+    )
+
     return response
+
+# Creates a session that preserves cookies between HTTP requests.
+def create_session():
+    return requests.Session()
