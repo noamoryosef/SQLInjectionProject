@@ -7,9 +7,13 @@ def is_login_successful(response):
         and response.headers.get("Location") == "/dashboard"
     )
 
-# Detects a potential authentication bypass by comparing dashboard access.
-def detect_sql_injection(baseline_access, payload_access):
-    return not baseline_access and payload_access
+# Detects a potential SQL injection bypass by comparing dashboard access.
+def detect_sql_injection(baseline_access, baseline_dashboard_access, payload_access):
+    return (
+        not baseline_access # accessing dashboard w/o login
+        and not baseline_dashboard_access # access dashboard with invalid login
+        and payload_access # access dashboad with SQL Injection
+    )
 
 # Checks whether the scanner successfully accessed protected dashboard content.
 def is_dashboard_accessible(response):

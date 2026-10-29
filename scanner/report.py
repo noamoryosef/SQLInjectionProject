@@ -1,57 +1,45 @@
-#File Purpose: Display results of findings 
+# File Purpose: Displays the results of the SQL injection vulnerability scanner.
 
-# Displays a summary of the SQL injection scan results.
-def display_summary(all_results):
 
-    # Count the total number of payload tests.
-    total_tests = len(all_results)
+def display_report(baseline_access, baseline_results, all_results):
 
-    # Count how many payload tests detected a potential vulnerability.
+    # Display security baseline
+    print("\n========== SECURITY BASELINE ==========")
+    print("Dashboard Access Without Login:", baseline_access)
+
+    for url, baseline in baseline_results.items():
+        print("\nLogin URL:", url)
+        print("Invalid Login Successful:", baseline["login_success"])
+        print("Dashboard Access After Invalid Login:", baseline["dashboard_access"])
+
+    # Display individual payload test results
+    print("\n========== SCANNING LOGIN PAGES ==========")
+
+    for result in all_results:
+        print("\nTesting URL:", result["url"])
+        print("Payload:", result["payload"])
+        print("Status Code:", result["status_code"])
+        print("Login Successful:", result["login_success"])
+        print("Dashboard Access:", result["dashboard_access"])
+
+        if result["vulnerability_detected"]:
+            print("Potential SQL Injection Detected!")
+        else:
+            print("No authentication bypass detected.")
+
+    # Calculate scan summary
     positive_results = sum(
         1 for result in all_results if result["vulnerability_detected"]
     )
 
-    # Collect unique URLs where vulnerabilities were detected.
     vulnerable_urls = {
         result["url"]
         for result in all_results
         if result["vulnerability_detected"]
     }
 
+    # Display scan summary
     print("\n========== SCAN SUMMARY ==========")
-    print("Total Payload Tests:", total_tests)
+    print("Total Payload Tests:", len(all_results))
     print("Positive Detection Results:", positive_results)
     print("Web Pages with Potential Vulnerabilities:", len(vulnerable_urls))
-
-# Displays the results of an individual SQL injection payload test.
-def display_payload_result(result):
-    print("Payload:", result["payload"])
-    print("Status Code:", result["status_code"])
-    print("Login Successful:", result["login_success"])
-    print("Dashboard Access:", result["dashboard_access"])
-
-    if result["vulnerability_detected"]:
-        print("Potential SQL Injection Detected!")
-    else:
-        print("No authentication bypass detected.")
-
-    print()
-
-    
-
-# Displays which URL is currently being tested.
-def display_test_url(url):
-    print("\n========== SCANNING LOGIN PAGE ==========")
-    print("\nTesting URL:", url)
-
-
-# Displays the result of the normal invalid login test.
-def display_baseline_result(baseline_success):
-    print("Baseline Login Successful:", baseline_success)
-
-# Displays the response when accessing the dashboard without logging in.
-def display_security_baseline(response):
-    print("\n========== SECURITY BASELINE ==========")
-    print("Dashboard Access Without Login - Status Code:", response.status_code)
-    print("Redirect Location:", response.headers.get("Location"))
-    print()

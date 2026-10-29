@@ -3,7 +3,7 @@
 from scanner.http_client import send_request, send_post_request, create_session
 from scanner.payloads import SQL_INJECTION_PAYLOADS
 from scanner.detector import is_login_successful, detect_sql_injection, is_dashboard_accessible
-from scanner.report import display_summary, display_payload_result, display_test_url, display_baseline_result,display_security_baseline
+from scanner.report import display_report
 
 # Return status code for URL
 def scan(url):
@@ -11,8 +11,7 @@ def scan(url):
     print("Status Code:", response.status_code)
 
 # Tests a login endpoint using a baseline and SQL injection payloads.
-def scan_login(url, baseline_access):
-    display_test_url(url)
+def scan_login(url, baseline_access, dashboard_url):
     results = [] # Stores results of payload test for later AI analysis
 
     # Test an ordinary invalid login to establish baseline behavior.
@@ -21,10 +20,16 @@ def scan_login(url, baseline_access):
         "password": "wrongpassword123"
     }
 
-    baseline_response = send_post_request(url, baseline_data)
-    baseline_success = is_login_successful(baseline_response)
+    # Test an invalid login and check whether it grants dashboard access.
+    with create_session() as session:
+        baseline_response = send_post_request(url, baseline_data, session)
+        baseline_success = is_login_successful(baseline_response)
 
-    display_baseline_result(baseline_success)
+        baseline_dashboard_response = send_request(dashboard_url, session)
+
+        baseline_dashboard_access = is_dashboard_accessible(
+            baseline_dashboard_response
+        )
 
     for payload in SQL_INJECTION_PAYLOADS:
         data = {
@@ -37,15 +42,16 @@ def scan_login(url, baseline_access):
             login_success = is_login_successful(response)
 
             # Request the protected dashboard using the same session.
-            dashboard_url = "http://127.0.0.1:8000/dashboard"
             dashboard_response = send_request(dashboard_url, session)
             
             # Check whether protected dashboard content was retrieved.
             dashboard_access = is_dashboard_accessible(dashboard_response)
 
-        # Detect a potential vulnerability by comparing dashboard access.
+        # Compare dashboard access before and after the SQL injection test.
         vulnerability_detected = detect_sql_injection(
-            baseline_access, dashboard_access
+            baseline_access,                                # accessing dashboard w/o login
+            baseline_dashboard_access,                      # access dashboard with invalid login
+            dashboard_access                                # access dashboad with SQL Injection
         )
 
         # Store the findings from this payload test.
@@ -61,9 +67,7 @@ def scan_login(url, baseline_access):
 
         results.append(result)
 
-        display_payload_result(result)
-
-    return results
+    return results, baseline_success, baseline_dashboard_access
 
 
 
@@ -75,17 +79,22 @@ if __name__ == "__main__":
     with create_session() as session:
         dashboard_response = send_request(dashboard_url, session)
 
-    # Display the unauthenticated dashboard test results.
-    display_security_baseline(dashboard_response)
     
     # Check whether the dashboard is accessible without logging in.
     baseline_access = is_dashboard_accessible(dashboard_response)
     
-    # Stores results from both URLs
+    # Stores results from both URLs (list)
     all_results = []
 
-    for url in urls:
-        scan_results = scan_login(url,baseline_access)
-        all_results.extend(scan_results)
+    # Store the invalid-login baseline results for each URL. (dictionary)
+    baseline_results = {}
 
-    display_summary(all_results)
+    for url in urls:
+        scan_results, baseline_success, baseline_dashboard_access = scan_login(url,baseline_access, dashboard_url)
+        all_results.extend(scan_results)
+        baseline_results[url] = {
+            "login_success": baseline_success,
+            "dashboard_access": baseline_dashboard_access
+        }
+
+    display_report(baseline_access, baseline_results, all_results)
