@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Security Scan Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+</head>
+
+<body class="dashboard-page">
+
+    <div class="dashboard-container">
+
+        <!-- Scan results header -->
+        <div class="dashboard-header">
+            <div>
+                <h1>Security Scan Results</h1>
+                <p class="dashboard-subtitle">
+                    SQL Injection Vulnerability Assessment
+                </p>
+            </div>
+
+            <!-- Return to the admin dashboard -->
+            <a href="{{ url_for('dashboard') }}" class="back-button">
+                ← Back to Dashboard
+            </a>
+
+        </div>
+
+
+        <!-- Display scan summary -->
+        <div class="scan-summary">
+
+            <div class="scan-summary-header">
+                <h2>Scan Summary</h2>
+                <p>Overview of the SQL injection scan results.</p>
+            </div>
+
+            <div class="summary-grid">
+
+                <!-- Total number of payload tests -->
+                <div class="summary-card">
+                    <div class="summary-icon">
+                        <i data-lucide="scan-search"></i>
+                    </div>
+                    <h3>{{ total_tests }}</h3>
+                    <p>Total Payload Tests</p>
+                </div>
+
+                <!-- Number of positive detection results -->
+                <div class="summary-card">
+                    <div class="summary-icon">
+                        <i data-lucide="triangle-alert"></i>
+                    </div>
+                    <h3>{{ positive_results }}</h3>
+                    <p>Positive Detection Results</p>
+                </div>
+
+                <!-- Number of unique vulnerable pages -->
+                <div class="summary-card">
+                    <div class="summary-icon">
+                        <i data-lucide="shield-alert"></i>
+                    </div>
+                    <h3>{{ vulnerable_pages }}</h3>
+                    <p>Potentially Vulnerable Pages</p>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Display security baseline -->
+        <div class="records-card baseline-section">
+
+            <div class="records-header">
+                <h2>Security Baseline</h2>
+                <p>Verify access restrictions before testing SQL injection.</p>
+            </div>
+
+            <div class="baseline-content">
+
+                <!-- Check dashboard access without logging in -->
+                <div class="baseline-overview">
+                    <div>
+                        <h3>Dashboard Access Without Login</h3>
+                        <p>Checks whether the protected dashboard can be accessed without authentication.</p>
+                    </div>
+
+                    {% if baseline_access %}
+                    <span class="baseline-status status-danger">Access Granted</span>
+                    {% else %}
+                    <span class="baseline-status status-success">Access Denied</span>
+                    {% endif %}
+                </div>
+
+                <!-- Display baseline results for each login page -->
+                <div class="baseline-grid">
+
+                    {% for url, baseline in baseline_results.items() %}
+
+                    <div class="baseline-card">
+
+                        <div class="baseline-card-header">
+                            <div>
+                                {% if '/vulnerable' in url %}
+                                <h3>Vulnerable Login</h3>
+                                {% else %}
+                                <h3>Secure Login</h3>
+                                {% endif %}
+
+                                <p class="baseline-url">{{ url }}</p>
+                            </div>
+                        </div>
+
+                        <div class="baseline-divider"></div>
+
+                        <div class="baseline-row">
+                            <span>Invalid Login</span>
+
+                            {% if baseline["login_success"] %}
+                            <span class="baseline-status status-danger">Accepted</span>
+                            {% else %}
+                            <span class="baseline-status status-success">Rejected</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="baseline-row">
+                            <span>Dashboard Access After Invalid Login</span>
+
+                            {% if baseline["dashboard_access"] %}
+                            <span class="baseline-status status-danger">Granted</span>
+                            {% else %}
+                            <span class="baseline-status status-success">Denied</span>
+                            {% endif %}
+                        </div>
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+                <p class="baseline-note">
+                    These baseline checks use ordinary invalid credentials, not SQL injection payloads.
+                    SQL injection vulnerabilities are evaluated in the test results below.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- Display individual SQL injection tests -->
+        <div class="records-card scan-results-card">
+            <div class="records-header">
+                <h2>SQL Injection Test Results</h2>
+                <p>Results collected from each tested payload</p>
+            </div>
+
+            <div class="table-container">
+                <table class="records-table">
+                    <thead>
+                        <tr>
+                            <th>URL</th>
+                            <th>Payload</th>
+                            <th>Status</th>
+                            <th>Dashboard Access</th>
+                            <th>Detection</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for result in all_results %}
+                        <tr>
+                            <td>{{ result["url"] }}</td>
+                            <td>{{ result["payload"] }}</td>
+                            <td>{{ result["status_code"] }}</td>
+                            <td>{{ result["dashboard_access"] }}</td>
+                            <td>
+                                {% if result["vulnerability_detected"] %}
+                                <span class="detection-danger">Potential SQL Injection</span>
+                                {% else %}
+                                <span class="detection-success">No Bypass Detected</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <p class="dashboard-footer">
+            SQL Injection Security Lab | Educational Testing Environment
+        </p>
+
+    </div>
+
+    <script>
+        lucide.createIcons();
+    </script>
+
+</body>
+
+</html>
