@@ -71,7 +71,8 @@ def scan_login(url, baseline_access, dashboard_url):
 
 
 
-if __name__ == "__main__":
+# Runs the complete SQL injection scan and returns the collected results.
+def run_scan():
     urls = ["http://127.0.0.1:8000/", "http://127.0.0.1:8000/vulnerable"]
 
     dashboard_url = "http://127.0.0.1:8000/dashboard"
@@ -96,5 +97,11 @@ if __name__ == "__main__":
             "login_success": baseline_success,
             "dashboard_access": baseline_dashboard_access
         }
+
+    return baseline_access, baseline_results, all_results
+
+
+if __name__ == "__main__":
+    baseline_access, baseline_results, all_results = run_scan()
 
     display_report(baseline_access, baseline_results, all_results)

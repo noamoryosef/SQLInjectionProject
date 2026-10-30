@@ -20,8 +20,17 @@
                 </p>
             </div>
 
-            <!-- end the login session and return to the login page -->
-            <a href="/logout" class="logout-button">Log Out</a>
+            <div class="dashboard-actions">
+
+                <!-- Open the SQL injection scanner page -->
+                <a href="{{ url_for('scanner_page') }}" class="scanner-button">
+                    Security Scanner
+                </a>
+
+                <!-- end the login session and return to the login page -->
+                <a href="/logout" class="logout-button">Log Out</a>
+
+            </div>
         </div>
 
         <!-- confidential information warning -->
@@ -77,6 +86,7 @@
         </p>
 
     </div>
-    
+
 </body>
+
 </html>

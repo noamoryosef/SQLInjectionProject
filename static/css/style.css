@@ -344,6 +344,329 @@ body.dashboard-page {
     font-size: 12px;
 }
 
+/* Scanner page controls */
+.scanner-controls {
+    padding: 28px;
+}
+
+.scanner-target {
+    margin-bottom: 20px;
+    color: #cbd5e1;
+    font-size: 14px;
+}
+
+/* Security baseline content */
+.scan-section {
+    padding: 28px;
+    line-height: 1.8;
+}
+
+.scan-section p {
+    margin-bottom: 8px;
+}
+
+/* Space between scan result sections */
+.scan-results-card {
+    margin-top: 24px;
+}
+
+/* Dashboard navigation buttons */
+.dashboard-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.scanner-button {
+    display: inline-block;
+    padding: 12px 22px;
+    background: #1d3a63;
+    border: 1px solid #3b82f6;
+    border-radius: 8px;
+    color: #93c5fd;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.scanner-button:hover {
+    background: #294c7d;
+}
+
+/* Back to dashboard navigation */
+.back-button {
+    display: inline-block;
+    padding: 12px 20px;
+    background: #1d3a63;
+    border: 1px solid #3b82f6;
+    border-radius: 8px;
+    color: #93c5fd;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: background 0.2s;
+}
+
+.back-button:hover {
+    background: #294c7d;
+}
+
+
+/* ==========================================
+   Security Baseline Section
+   ========================================== */
+
+/* Main baseline content */
+.baseline-content {
+    padding: 28px;
+}
+
+/* Dashboard access without login */
+.baseline-overview {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 22px 24px;
+    margin-bottom: 20px;
+    background: #101a2d;
+    border: 1px solid #29364e;
+    border-radius: 12px;
+}
+
+.baseline-overview h3 {
+    color: #f8fafc;
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+.baseline-overview p {
+    color: #94a3b8;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+/* Two-column login baseline layout */
+.baseline-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+/* Individual login baseline cards */
+.baseline-card {
+    background: #101a2d;
+    border: 1px solid #29364e;
+    border-radius: 12px;
+    padding: 24px;
+    min-width: 0;
+}
+
+.baseline-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.baseline-card h3 {
+    color: #f8fafc;
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+.baseline-url {
+    color: #94a3b8;
+    font-size: 12px;
+    overflow-wrap: anywhere;
+}
+
+/* Divider inside each card */
+.baseline-divider {
+    height: 1px;
+    background: #334155;
+    margin: 20px 0;
+}
+
+/* Baseline test rows */
+.baseline-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 18px;
+    color: #cbd5e1;
+    font-size: 13px;
+}
+
+.baseline-row:last-child {
+    margin-bottom: 0;
+}
+
+/* Status indicators */
+.baseline-status {
+    display: inline-block;
+    padding: 7px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* Expected secure behavior */
+.status-success {
+    background: #123c32;
+    color: #6ee7b7;
+}
+
+/* Unexpected or insecure behavior */
+.status-danger {
+    background: #4a252b;
+    color: #fda4af;
+}
+
+/* Explanation below baseline cards */
+.baseline-note {
+    margin-top: 22px;
+    color: #94a3b8;
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+
+/* ==========================================
+   Scan Summary Section
+   ========================================== */
+
+/* Main summary section */
+.scan-summary {
+    margin-bottom: 24px;
+}
+
+/* Summary heading */
+.scan-summary-header {
+    margin-bottom: 20px;
+}
+
+.scan-summary-header h2 {
+    color: #f8fafc;
+    font-size: 22px;
+    margin-bottom: 8px;
+}
+
+.scan-summary-header p {
+    color: #94a3b8;
+    font-size: 13px;
+}
+
+/* Three-column summary layout */
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+}
+
+/* Individual summary cards */
+.summary-card {
+    background: #151f33;
+    border: 1px solid #29364e;
+    border-radius: 12px;
+    padding: 26px;
+    min-width: 0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* Summary icons */
+.summary-icon {
+    color: #60a5fa;
+    margin-bottom: 18px;
+}
+
+.summary-icon svg {
+    width: 28px;
+    height: 28px;
+    stroke-width: 2;
+}
+
+/* Different icon colors for each card */
+.summary-card:nth-child(2) .summary-icon {
+    color: #fbbf24;
+}
+
+.summary-card:nth-child(3) .summary-icon {
+    color: #f87171;
+}
+
+/* Summary numbers */
+.summary-card h3 {
+    color: #f8fafc;
+    font-size: 34px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+/* Summary labels */
+.summary-card p {
+    color: #94a3b8;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* SQL injection detection results */
+.detection-danger {
+    color: #f87171;
+    font-weight: 600;
+}
+
+.detection-success {
+    color: #6ee7b7;
+    font-weight: 600;
+}
+
+/* Responsive summary layout */
+@media (max-width: 700px) {
+    .summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .summary-card {
+        padding: 20px;
+    }
+}
+
+/* Responsive baseline layout */
+@media (max-width: 700px) {
+    .baseline-content {
+        padding: 18px;
+    }
+
+    .baseline-overview {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 18px;
+    }
+
+    .baseline-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .baseline-card {
+        padding: 18px;
+    }
+
+    .baseline-row {
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 600px) {
+    .dashboard-actions {
+        flex-wrap: wrap;
+    }
+}
+
 /* Responsive dashboard */
 @media (max-width: 600px) {
     body.dashboard-page {
