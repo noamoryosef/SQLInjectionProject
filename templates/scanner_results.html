@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Security Scan Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="dashboard-page">
+
+    <div class="dashboard-container">
+
+        <!-- Scan results header -->
+        <div class="dashboard-header">
+            <div>
+                <h1>Security Scan Results</h1>
+                <p class="dashboard-subtitle">
+                    SQL Injection Vulnerability Assessment
+                </p>
+            </div>
+        </div>
+
+        <!-- Display security baseline -->
+        <div class="records-card">
+            <div class="records-header">
+                <h2>Security Baseline</h2>
+                <p>Dashboard access without authentication</p>
+            </div>
+
+            <div class="scan-section">
+                <p>
+                    Dashboard Access Without Login:
+                    <strong>{{ baseline_access }}</strong>
+                </p>
+
+                {% for url, baseline in baseline_results.items() %}
+                <p>
+                    <strong>{{ url }}</strong>
+                </p>
+                <p>
+                    Invalid Login Successful:
+                    {{ baseline["login_success"] }}
+                </p>
+                <p>
+                    Dashboard Access After Invalid Login:
+                    {{ baseline["dashboard_access"] }}
+                </p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Display individual SQL injection tests -->
+        <div class="records-card scan-results-card">
+            <div class="records-header">
+                <h2>SQL Injection Test Results</h2>
+                <p>Results collected from each tested payload</p>
+            </div>
+
+            <div class="table-container">
+                <table class="records-table">
+                    <thead>
+                        <tr>
+                            <th>URL</th>
+                            <th>Payload</th>
+                            <th>Status</th>
+                            <th>Dashboard Access</th>
+                            <th>Detection</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for result in all_results %}
+                        <tr>
+                            <td>{{ result["url"] }}</td>
+                            <td>{{ result["payload"] }}</td>
+                            <td>{{ result["status_code"] }}</td>
+                            <td>{{ result["dashboard_access"] }}</td>
+                            <td>
+                                {% if result["vulnerability_detected"] %}
+                                    Potential SQL Injection
+                                {% else %}
+                                    No Bypass Detected
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <p class="dashboard-footer">
+            SQL Injection Security Lab | Educational Testing Environment
+        </p>
+
+    </div>
+
+</body>
+</html>

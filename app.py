@@ -1,6 +1,7 @@
 
 # import tools needed to run the website and access the database
 import sqlite3
+from scanner.scanner import run_scan
 from flask import Flask, render_template, request, session, redirect
 
 # create flask application
@@ -130,6 +131,25 @@ def logout():
     # return to the login page
     return redirect("/")
 
+# Displays the security scanner page.
+@app.route("/scanner")
+def scanner_page():
+    return render_template("scanner.html")
+
+# Runs the SQL injection scanner when requested from the website.
+@app.route("/run-scan", methods=["POST"])
+def run_security_scan():
+
+    # Run the scanner and collect its results.
+    baseline_access, baseline_results, all_results = run_scan()
+
+    # Display the scan results on a webpage.
+    return render_template(
+        "scanner_results.html",
+        baseline_access=baseline_access,
+        baseline_results=baseline_results,
+        all_results=all_results
+    )
 
 # start the website when running this file
 if __name__ == "__main__":

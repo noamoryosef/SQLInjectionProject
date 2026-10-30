@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>SQL Injection Scanner</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="dashboard-page">
+
+    <div class="dashboard-container">
+
+        <!-- Scanner page header -->
+        <div class="dashboard-header">
+            <div>
+                <h1>SQL Injection Scanner</h1>
+                <p class="dashboard-subtitle">
+                    Test the local web application for SQL injection vulnerabilities.
+                </p>
+            </div>
+        </div>
+
+        <!-- Scanner controls -->
+        <div class="records-card">
+
+            <div class="records-header">
+                <h2>Security Scanner</h2>
+                <p>Run an automated scan against the secure and vulnerable login pages.</p>
+            </div>
+
+            <div class="scanner-controls">
+
+                <p class="scanner-target">
+                    <strong>Target Application:</strong>
+                    http://127.0.0.1:8000
+                </p>
+
+                <!-- Submit a request to Flask to run the scanner -->
+                <form action="{{ url_for('run_security_scan') }}" method="POST">
+                    <button type="submit" class="login-button">
+                        Run Security Scan
+                    </button>
+                </form>
+
+            </div>
+        </div>
+
+        <p class="dashboard-footer">
+            SQL Injection Security Lab | Educational Testing Environment
+        </p>
+
+    </div>
+
+</body>
+</html>

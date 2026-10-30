@@ -344,6 +344,32 @@ body.dashboard-page {
     font-size: 12px;
 }
 
+/* Scanner page controls */
+.scanner-controls {
+    padding: 28px;
+}
+
+.scanner-target {
+    margin-bottom: 20px;
+    color: #cbd5e1;
+    font-size: 14px;
+}
+
+/* Security baseline content */
+.scan-section {
+    padding: 28px;
+    line-height: 1.8;
+}
+
+.scan-section p {
+    margin-bottom: 8px;
+}
+
+/* Space between scan result sections */
+.scan-results-card {
+    margin-top: 24px;
+}
+
 /* Responsive dashboard */
 @media (max-width: 600px) {
     body.dashboard-page {
