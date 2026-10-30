@@ -143,12 +143,32 @@ def run_security_scan():
     # Run the scanner and collect its results.
     baseline_access, baseline_results, all_results = run_scan()
 
+    # Count the total number of payload tests.
+    total_tests = len(all_results)
+
+    # Count how many payload tests detected a potential vulnerability.
+    positive_results = sum(
+        1 for result in all_results if result["vulnerability_detected"]
+    )
+
+    # Count unique URLs where potential vulnerabilities were detected.
+    vulnerable_urls = {
+        result["url"]
+        for result in all_results
+        if result["vulnerability_detected"]
+    }
+
+    vulnerable_pages = len(vulnerable_urls)
+
     # Display the scan results on a webpage.
     return render_template(
         "scanner_results.html",
         baseline_access=baseline_access,
         baseline_results=baseline_results,
-        all_results=all_results
+        all_results=all_results,
+        total_tests=total_tests,
+        positive_results=positive_results,
+        vulnerable_pages=vulnerable_pages
     )
 
 # start the website when running this file
