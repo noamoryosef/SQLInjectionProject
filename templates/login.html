@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>SQL Injection Security Lab</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <div class="brand">
+            <div class="brand-icon">&#128737;</div>
+            <h1>Security Lab</h1>
+            <p class="subtitle">
+                SQL Injection Vulnerability Testing Environment
+            </p>
+        </div>
+
+        {% if request.path == "/vulnerable" %}
+        <div class="mode vulnerable">
+            Vulnerable Login Mode
+        </div>
+        {% else %}
+        <div class="mode secure">
+            Secure Login Mode
+        </div>
+        {% endif %}
+
+        <form method="POST">
+
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+
+            <button type="submit" class="login-button">
+                Log In
+            </button>
+
+        </form>
+
+            {% if message %}
+        <div class="error-message">
+            {{ message }}
+        </div>
+        {% endif %}
+
+        <div class="mode-switch">
+            <p>Select Testing Mode</p>
+
+            <div class="mode-links">
+                <a href="/" class="{% if request.path == '/' %}active{% endif %}">
+                    Secure Login
+                </a>
+
+                <a href="/vulnerable" class="{% if request.path == '/vulnerable' %}active{% endif %}">
+                    Vulnerable Login
+                </a>
+            </div>
+        </div>
+
+        <div class="footer">
+            Educational Security Testing Environment
+        </div>
+
+    </div>
+
+</body>
+
+</html>
