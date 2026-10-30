@@ -19,6 +19,12 @@
                     SQL Injection Vulnerability Assessment
                 </p>
             </div>
+
+            <!-- Return to the admin dashboard -->
+            <a href="{{ url_for('dashboard') }}" class="back-button">
+                ← Back to Dashboard
+            </a>
+
         </div>
 
         <!-- Display security baseline -->
@@ -78,9 +84,9 @@
                             <td>{{ result["dashboard_access"] }}</td>
                             <td>
                                 {% if result["vulnerability_detected"] %}
-                                    Potential SQL Injection
+                                Potential SQL Injection
                                 {% else %}
-                                    No Bypass Detected
+                                No Bypass Detected
                                 {% endif %}
                             </td>
                         </tr>
@@ -97,4 +103,5 @@
     </div>
 
 </body>
+
 </html>

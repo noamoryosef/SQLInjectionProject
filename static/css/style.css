@@ -370,6 +370,55 @@ body.dashboard-page {
     margin-top: 24px;
 }
 
+/* Dashboard navigation buttons */
+.dashboard-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.scanner-button {
+    display: inline-block;
+    padding: 12px 22px;
+    background: #1d3a63;
+    border: 1px solid #3b82f6;
+    border-radius: 8px;
+    color: #93c5fd;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.scanner-button:hover {
+    background: #294c7d;
+}
+
+/* Back to dashboard navigation */
+.back-button {
+    display: inline-block;
+    padding: 12px 20px;
+    background: #1d3a63;
+    border: 1px solid #3b82f6;
+    border-radius: 8px;
+    color: #93c5fd;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: background 0.2s;
+}
+
+.back-button:hover {
+    background: #294c7d;
+}
+
+@media (max-width: 600px) {
+    .dashboard-actions {
+        flex-wrap: wrap;
+    }
+}
+
 /* Responsive dashboard */
 @media (max-width: 600px) {
     body.dashboard-page {
