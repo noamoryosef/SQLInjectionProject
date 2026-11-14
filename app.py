@@ -140,19 +140,28 @@ def scanner_page():
 @app.route("/run-scan", methods=["POST"])
 def run_security_scan():
 
-    # Run SQLmap against both login pages.
-    secure_findings = run_sqlmap_scan("http://127.0.0.1:8000/")
+    try:
+        # Run SQLmap against both login pages.
+        secure_findings = run_sqlmap_scan(
+            "http://127.0.0.1:8000/"
+        )
 
-    vulnerable_findings = run_sqlmap_scan(
-        "http://127.0.0.1:8000/vulnerable"
-    )
+        vulnerable_findings = run_sqlmap_scan(
+            "http://127.0.0.1:8000/vulnerable"
+        )
 
-    # Display the SQLmap scan results on a webpage.
-    return render_template(
-        "scanner_results.html",
-        secure_findings=secure_findings,
-        vulnerable_findings=vulnerable_findings
-    )
+        return render_template(
+            "scanner_results.html",
+            secure_findings=secure_findings,
+            vulnerable_findings=vulnerable_findings
+        )
+
+    except Exception:
+        app.logger.exception("SQLmap scan failed")
+
+        return render_template(
+            "scanner_error.html"
+        ), 500
 
 # start the website when running this file
 if __name__ == "__main__":
