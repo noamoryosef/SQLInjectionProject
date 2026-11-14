@@ -2,6 +2,7 @@
 # import tools needed to run the website and access the database
 import sqlite3
 from scanner.scanner import run_scan
+from scanner.sqlmap_client import run_sqlmap_scan
 from flask import Flask, render_template, request, session, redirect
 
 # create flask application
@@ -140,35 +141,18 @@ def scanner_page():
 @app.route("/run-scan", methods=["POST"])
 def run_security_scan():
 
-    # Run the scanner and collect its results.
-    baseline_access, baseline_results, all_results = run_scan()
+    # Run SQLmap against both login pages.
+    secure_findings = run_sqlmap_scan("http://127.0.0.1:8000/")
 
-    # Count the total number of payload tests.
-    total_tests = len(all_results)
-
-    # Count how many payload tests detected a potential vulnerability.
-    positive_results = sum(
-        1 for result in all_results if result["vulnerability_detected"]
+    vulnerable_findings = run_sqlmap_scan(
+        "http://127.0.0.1:8000/vulnerable"
     )
 
-    # Count unique URLs where potential vulnerabilities were detected.
-    vulnerable_urls = {
-        result["url"]
-        for result in all_results
-        if result["vulnerability_detected"]
-    }
-
-    vulnerable_pages = len(vulnerable_urls)
-
-    # Display the scan results on a webpage.
+    # Display the SQLmap scan results on a webpage.
     return render_template(
         "scanner_results.html",
-        baseline_access=baseline_access,
-        baseline_results=baseline_results,
-        all_results=all_results,
-        total_tests=total_tests,
-        positive_results=positive_results,
-        vulnerable_pages=vulnerable_pages
+        secure_findings=secure_findings,
+        vulnerable_findings=vulnerable_findings
     )
 
 # start the website when running this file

@@ -625,6 +625,23 @@ body.dashboard-page {
     font-weight: 600;
 }
 
+/* SQLmap detected injection techniques */
+.technique-list {
+    margin-top: 16px;
+    padding-left: 22px;
+    color: #cbd5e1;
+}
+
+.technique-list li {
+    margin-bottom: 12px;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.technique-list li::marker {
+    color: #f87171;
+}
+
 /* Responsive summary layout */
 @media (max-width: 700px) {
     .summary-grid {
