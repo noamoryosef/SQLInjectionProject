@@ -260,3 +260,75 @@ def format_scan_findings(findings, url):
         formatted_findings.append(result)
 
     return formatted_findings
+
+# Deletes an SQLmap task after the scan is finished.
+def delete_sqlmap_task(task_id):
+    api_url = os.getenv("SQLMAP_API_URL")
+    username = os.getenv("SQLMAP_API_USERNAME")
+    password = os.getenv("SQLMAP_API_PASSWORD")
+
+    response = requests.get(
+        f"{api_url}/task/{task_id}/delete",
+        auth=(username, password),
+        timeout=5
+    )
+
+    response.raise_for_status()
+
+    result = response.json()
+
+    if not result.get("success"):
+        raise RuntimeError("Failed to delete SQLmap task.")
+
+
+# Stops a running SQLmap scanning task if it timesout
+def stop_sqlmap_scan(task_id):
+    api_url = os.getenv("SQLMAP_API_URL")
+    username = os.getenv("SQLMAP_API_USERNAME")
+    password = os.getenv("SQLMAP_API_PASSWORD")
+
+    response = requests.get(
+        f"{api_url}/scan/{task_id}/stop",
+        auth=(username, password),
+        timeout=5
+    )
+
+    response.raise_for_status()
+
+    result = response.json()
+
+    if not result.get("success"):
+        raise RuntimeError("Failed to stop SQLmap scan.")
+
+    
+# Runs an SQLmap scan and cleans up its task afterward.
+def run_sqlmap_scan(url):
+    if url not in ALLOWED_URLS:
+        raise ValueError("This URL is not authorized for scanning.")
+
+    task_id = create_sqlmap_task()
+
+    try:
+        start_sqlmap_scan(task_id, url)
+
+        results = wait_for_scan(task_id)
+
+        findings = extract_scan_findings(results)
+
+        formatted_findings = format_scan_findings(findings, url)
+
+        return formatted_findings
+
+    finally:
+        try: # stop the scan if it is still running.
+            if get_scan_status(task_id) == "running":
+                stop_sqlmap_scan(task_id)
+
+        except Exception as error:
+            print("Error stopping SQLmap scan:", error)
+
+        try: # attempt to delete task
+            delete_sqlmap_task(task_id)
+
+        except Exception as error:
+            print("Error deleting SQLmap task:", error)
