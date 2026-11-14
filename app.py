@@ -1,7 +1,6 @@
 
 # import tools needed to run the website and access the database
 import sqlite3
-from scanner.scanner import run_scan
 from scanner.sqlmap_client import run_sqlmap_scan
 from flask import Flask, render_template, request, session, redirect
 
