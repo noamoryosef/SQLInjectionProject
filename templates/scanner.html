@@ -42,12 +42,30 @@
                     http://127.0.0.1:8000
                 </p>
 
+
                 <!-- Submit a request to Flask to run the scanner -->
-                <form action="{{ url_for('run_security_scan') }}" method="POST">
-                    <button type="submit" class="login-button">
+                <form action="{{ url_for('run_security_scan') }}" method="POST" id="scan-form">
+
+                    <button type="submit" class="login-button" id="scan-button">
                         Run Security Scan
                     </button>
+
                 </form>
+
+                <!-- Display while SQLmap is scanning -->
+                <div id="scan-loading" class="scan-loading" hidden>
+
+                    <div class="loading-spinner"></div>
+
+                    <h3>Scanning in Progress...</h3>
+
+                    <p>
+                        SQLmap is testing the login pages for SQL injection vulnerabilities.
+                        Please wait.
+                    </p>
+
+                </div>
+
 
             </div>
         </div>
@@ -57,6 +75,20 @@
         </p>
 
     </div>
+
+
+    <script>
+        const scanForm = document.getElementById("scan-form");
+        const scanButton = document.getElementById("scan-button");
+        const scanLoading = document.getElementById("scan-loading");
+
+        scanForm.addEventListener("submit", function () {
+            scanButton.disabled = true;
+            scanButton.textContent = "Scanning...";
+            scanLoading.hidden = false;
+        });
+    </script>
+
 
 </body>
 
