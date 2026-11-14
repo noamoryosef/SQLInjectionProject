@@ -229,3 +229,34 @@ def inspect_scan_results(results):
                         if isinstance(technique, dict):
                             print("Detected Technique:", technique.get("title"))
         print()
+
+# Extracts SQL injection findings from SQLmap's JSON results.
+def extract_scan_findings(results):
+    findings = []
+
+    for entry in results:
+        if entry.get("type_name") == "TECHNIQUES":
+            for finding in entry.get("value", []):
+                findings.append(finding)
+
+    return findings
+
+# Organizes SQLmap findings into a simpler format for reporting.
+def format_scan_findings(findings, url):
+    formatted_findings = []
+
+    for finding in findings:
+        result = {
+            "url": url,
+            "parameter": finding.get("parameter"),
+            "database": finding.get("dbms"),
+            "techniques": []
+        }
+
+        # collect the names of the SQL injection techniques detected.
+        for technique in finding.get("data", []):
+            result["techniques"].append(technique.get("title"))
+
+        formatted_findings.append(result)
+
+    return formatted_findings
