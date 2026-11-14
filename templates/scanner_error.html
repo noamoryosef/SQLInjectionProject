@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Scan Error</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="dashboard-page">
+
+    <div class="dashboard-container">
+
+        <!-- Error page header -->
+        <div class="dashboard-header">
+            <div>
+                <h1>Security Scan Error</h1>
+                <p class="dashboard-subtitle">
+                    SQL Injection Vulnerability Assessment
+                </p>
+            </div>
+
+            <!-- Return to the admin dashboard -->
+            <a href="{{ url_for('dashboard') }}" class="back-button">
+                &larr; Back to Dashboard
+            </a>
+        </div>
+
+        <!-- Display scan error -->
+        <div class="records-card">
+
+            <div class="records-header">
+                <h2>Scan Could Not Be Completed</h2>
+                <p>An error occurred while running the SQLmap scanner.</p>
+            </div>
+
+            <div class="baseline-content">
+
+                <div class="baseline-overview">
+                    <div>
+                        <h3>Scan Failed</h3>
+                        <p>
+                            The security scan could not be completed.
+                            Please verify that the SQLmap API server
+                            is running and try again.
+                        </p>
+                    </div>
+
+                    <span class="baseline-status status-danger">
+                        Failed
+                    </span>
+                </div>
+
+                <!-- Return to the scanner page -->
+                <a href="{{ url_for('scanner_page') }}" class="back-button">
+                    Try Again
+                </a>
+
+            </div>
+
+        </div>
+
+        <p class="dashboard-footer">
+            SQL Injection Security Lab | Educational Testing Environment
+        </p>
+
+    </div>
+
+</body>
+</html>

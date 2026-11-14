@@ -625,6 +625,86 @@ body.dashboard-page {
     font-weight: 600;
 }
 
+/* SQLmap detected injection techniques */
+.technique-list {
+    margin-top: 16px;
+    padding-left: 22px;
+    color: #cbd5e1;
+}
+
+.technique-list li {
+    margin-bottom: 12px;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.technique-list li::marker {
+    color: #f87171;
+}
+
+/* SQLmap Scanning Progress Indicator */
+
+/* Loading container */
+.scan-loading {
+    margin-top: 24px;
+    padding: 30px;
+    background: #101a2d;
+    border: 1px solid #29364e;
+    border-radius: 12px;
+    text-align: center;
+}
+
+/* Keep loading indicator hidden until scanning starts */
+.scan-loading[hidden] {
+    display: none;
+}
+
+/* Animated loading spinner */
+.loading-spinner {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 20px;
+    border: 4px solid #29364e;
+    border-top: 4px solid #60a5fa;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* Spinner animation */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Loading message */
+.scan-loading h3 {
+    color: #f8fafc;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.scan-loading p {
+    color: #94a3b8;
+    font-size: 13px;
+    line-height: 1.6;
+    max-width: 450px;
+    margin: 0 auto;
+}
+
+/* Disabled scan button */
+.login-button:disabled {
+    background: #334155;
+    color: #94a3b8;
+    cursor: not-allowed;
+}
+
+
+
 /* Responsive summary layout */
 @media (max-width: 700px) {
     .summary-grid {
