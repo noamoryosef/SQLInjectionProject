@@ -148,7 +148,7 @@ def get_scan_status(task_id):
     if not result.get("success"):
         raise RuntimeError("Failed to retrieve SQLmap scan status.")
 
-    return result["status"]
+    return result
 
 
 # Retrieves the results of an SQLmap scanning task.
@@ -171,15 +171,21 @@ def get_scan_results(task_id):
     return result["data"]
 
 
-# Waits for an SQLmap scan to finish and retrieves its results.
+# Waits for SQLmap to finish and verifies successful completion.
 def wait_for_scan(task_id, timeout=180):
     start_time = time.monotonic()
 
     while time.monotonic() - start_time < timeout:
-        status = get_scan_status(task_id)
+        scan_status = get_scan_status(task_id)
+
+        status = scan_status["status"]
+        return_code = scan_status["returncode"]
 
         if status == "terminated":
-            return get_scan_results(task_id)
+            if return_code == 0:
+                return get_scan_results(task_id)
+
+            raise RuntimeError("SQLmap scan failed.")
 
         if status != "running":
             raise RuntimeError("SQLmap scan stopped unexpectedly.")
@@ -321,7 +327,7 @@ def run_sqlmap_scan(url):
 
     finally:
         try: # stop the scan if it is still running.
-            if get_scan_status(task_id) == "running":
+            if get_scan_status(task_id)["status"] == "running":
                 stop_sqlmap_scan(task_id)
 
         except Exception as error:
