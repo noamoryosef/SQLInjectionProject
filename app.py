@@ -1,6 +1,8 @@
 
 # import tools needed to run the website and access the database
 import sqlite3
+import bleach
+import markdown
 from dotenv import load_dotenv
 from scanner.scanner import run_scan
 from scanner.gemini import generate_remediation_report, GeminiReportError
@@ -14,6 +16,20 @@ app = Flask(__name__)
 
 # set a secret key to manage login sessions
 app.secret_key = "development-only-secret-key"
+
+
+def format_remediation_report(report):
+    """Render Gemini Markdown while allowing only safe report markup."""
+    rendered = markdown.markdown(report, extensions=["fenced_code", "sane_lists"])
+    return bleach.clean(
+        rendered,
+        tags={
+            "a", "blockquote", "br", "code", "em", "h1", "h2", "h3", "h4",
+            "hr", "li", "ol", "p", "pre", "strong", "ul",
+        },
+        attributes={"a": ["href", "title"], "code": ["class"], "pre": ["class"]},
+        strip=True,
+    )
 
 
 # create a login page that is intentionally vulnerable to sql injection
@@ -170,10 +186,12 @@ def run_security_scan():
         result for result in all_results if result["vulnerability_detected"]
     ]
     remediation_report = None
+    remediation_html = None
     remediation_error = None
     if positive_findings:
         try:
             remediation_report = generate_remediation_report(positive_findings)
+            remediation_html = format_remediation_report(remediation_report)
         except GeminiReportError as error:
             remediation_error = str(error)
     else:
@@ -189,6 +207,7 @@ def run_security_scan():
         positive_results=positive_results,
         vulnerable_pages=vulnerable_pages,
         remediation_report=remediation_report,
+        remediation_html=remediation_html,
         remediation_error=remediation_error
     )
 

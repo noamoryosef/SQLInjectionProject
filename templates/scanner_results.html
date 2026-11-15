@@ -198,9 +198,9 @@
                 <p>Gemini analysis of the positive SQL injection findings from this scan.</p>
             </div>
             {% if remediation_report %}
-            <div class="remediation-report" style="white-space: pre-wrap; line-height: 1.6;">{{ remediation_report }}</div>
+            <article class="remediation-report">{{ remediation_html|safe }}</article>
             {% else %}
-            <p>{{ remediation_error }}</p>
+            <p class="remediation-error">{{ remediation_error }}</p>
             {% endif %}
         </div>
 
