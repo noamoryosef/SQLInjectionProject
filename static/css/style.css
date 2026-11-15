@@ -408,6 +408,10 @@ body.dashboard-page {
     margin: 26px 0 12px;
 }
 
+.remediation-report > :first-child {
+    margin-top: 0;
+}
+
 .remediation-report h1 {
     margin-top: 0;
     padding-bottom: 14px;
