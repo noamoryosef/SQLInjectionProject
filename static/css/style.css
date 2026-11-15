@@ -130,6 +130,24 @@ input::placeholder {
     background: #3156c9;
 }
 
+.scanner-entry-link {
+    display: block;
+    margin-top: 14px;
+    padding: 11px 12px;
+    border: 1px solid #4169e1;
+    border-radius: 8px;
+    color: #bfdbfe;
+    text-align: center;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.scanner-entry-link:hover {
+    background: #1d3a63;
+}
+
 /* Error message */
 .error-message {
     margin-top: 20px;
@@ -367,6 +385,10 @@ body.dashboard-page {
 
 /* Space between scan result sections */
 .scan-results-card {
+    margin-top: 24px;
+}
+
+.remediation-card {
     margin-top: 24px;
 }
 

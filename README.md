@@ -1,7 +1,15 @@
 # SQLInjectionProject
 
+# Configure Gemini on each developer's machine:
+# Copy .env.example to .env and set GEMINI_API_KEY to the shared project key.
+# The local .env is ignored by Git; do not commit credentials.
+
 # to start the python backend, open terminal and paste:
 python app.py
+
+# Open /scanner while the app is running and run a scan. Positive findings
+# are sent to Gemini and its remediation report appears below the scan results.
+# Without GEMINI_API_KEY, scan results still appear with a configuration message.
 
 # (if database or users.db isn't updated, paste the following before trying again)
 python database.py

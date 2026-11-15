@@ -1,8 +1,13 @@
 
 # import tools needed to run the website and access the database
 import sqlite3
+from dotenv import load_dotenv
 from scanner.scanner import run_scan
+from scanner.gemini import generate_remediation_report, GeminiReportError
 from flask import Flask, render_template, request, session, redirect
+
+load_dotenv()
+
 
 # create flask application
 app = Flask(__name__)
@@ -160,6 +165,20 @@ def run_security_scan():
 
     vulnerable_pages = len(vulnerable_urls)
 
+    # Send only scanner-confirmed positive findings to Gemini.
+    positive_findings = [
+        result for result in all_results if result["vulnerability_detected"]
+    ]
+    remediation_report = None
+    remediation_error = None
+    if positive_findings:
+        try:
+            remediation_report = generate_remediation_report(positive_findings)
+        except GeminiReportError as error:
+            remediation_error = str(error)
+    else:
+        remediation_error = "No positive SQL injection findings were available to analyze."
+
     # Display the scan results on a webpage.
     return render_template(
         "scanner_results.html",
@@ -168,7 +187,9 @@ def run_security_scan():
         all_results=all_results,
         total_tests=total_tests,
         positive_results=positive_results,
-        vulnerable_pages=vulnerable_pages
+        vulnerable_pages=vulnerable_pages,
+        remediation_report=remediation_report,
+        remediation_error=remediation_error
     )
 
 # start the website when running this file
