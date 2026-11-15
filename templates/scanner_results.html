@@ -230,6 +230,18 @@
         </div>
 
 
+        <div class="records-card remediation-card">
+            <div class="records-header">
+                <h2>AI Remediation Report</h2>
+                <p>Gemini analysis of the positive SQLmap findings from this scan.</p>
+            </div>
+            {% if remediation_report %}
+            <article class="remediation-report">{{ remediation_html|safe }}</article>
+            {% else %}
+            <p class="remediation-error">{{ remediation_error }}</p>
+            {% endif %}
+        </div>
+
         <p class="dashboard-footer">
             SQL Injection Security Lab | Educational Testing Environment
         </p>
