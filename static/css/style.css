@@ -130,6 +130,24 @@ input::placeholder {
     background: #3156c9;
 }
 
+.scanner-entry-link {
+    display: block;
+    margin-top: 14px;
+    padding: 11px 12px;
+    border: 1px solid #4169e1;
+    border-radius: 8px;
+    color: #bfdbfe;
+    text-align: center;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.scanner-entry-link:hover {
+    background: #1d3a63;
+}
+
 /* Error message */
 .error-message {
     margin-top: 20px;
@@ -368,6 +386,107 @@ body.dashboard-page {
 /* Space between scan result sections */
 .scan-results-card {
     margin-top: 24px;
+}
+
+.remediation-card {
+    margin-top: 24px;
+}
+
+.remediation-report {
+    padding: 28px;
+    color: #cbd5e1;
+    font-size: 15px;
+    line-height: 1.75;
+}
+
+.remediation-report h1,
+.remediation-report h2,
+.remediation-report h3,
+.remediation-report h4 {
+    color: #f8fafc;
+    line-height: 1.35;
+    margin: 26px 0 12px;
+}
+
+.remediation-report > :first-child {
+    margin-top: 0;
+}
+
+.remediation-report h1 {
+    margin-top: 0;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #334155;
+    font-size: 24px;
+}
+
+.remediation-report h2 {
+    color: #93c5fd;
+    font-size: 19px;
+}
+
+.remediation-report h3,
+.remediation-report h4 {
+    color: #bfdbfe;
+    font-size: 16px;
+}
+
+.remediation-report p {
+    margin: 0 0 16px;
+}
+
+.remediation-report ul,
+.remediation-report ol {
+    margin: 0 0 18px;
+    padding-left: 25px;
+}
+
+.remediation-report li {
+    padding-left: 4px;
+    margin: 6px 0;
+}
+
+.remediation-report li::marker {
+    color: #60a5fa;
+}
+
+.remediation-report strong {
+    color: #e2e8f0;
+}
+
+.remediation-report code {
+    padding: 2px 6px;
+    border-radius: 5px;
+    background: #0b1425;
+    color: #7dd3fc;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 0.9em;
+}
+
+.remediation-report pre {
+    overflow-x: auto;
+    margin: 14px 0 20px;
+    padding: 18px 20px;
+    border: 1px solid #334155;
+    border-radius: 10px;
+    background: #0b1425;
+}
+
+.remediation-report pre code {
+    padding: 0;
+    background: transparent;
+    color: #bfdbfe;
+    font-size: 13px;
+    line-height: 1.65;
+    white-space: pre;
+}
+
+.remediation-report a {
+    color: #7dd3fc;
+}
+
+.remediation-error {
+    margin: 24px 28px;
+    color: #fda4af;
 }
 
 /* Dashboard navigation buttons */

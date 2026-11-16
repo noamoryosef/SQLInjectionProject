@@ -37,11 +37,14 @@ SQLMAP_PATH=path/to/sqlmap.py
 SQLMAP_API_URL=http://127.0.0.1:8775
 SQLMAP_API_USERNAME=your_username
 SQLMAP_API_PASSWORD=your_password
+GEMINI_API_KEY=your_gemini_api_key
+GEMINI_MODEL=gemini-3.5-flash-lite
 ```
 
 Replace the placeholders with your local SQLmap installation path and API credentials.
+The Gemini key is used to generate a remediation report when SQLmap detects SQL injection.
 
-**Important:** Do not commit `.env` to GitHub or share API credentials or secret tokens.
+**Important:** Never commit `.env` to GitHub. Give each collaborator only the credentials they need through a private channel.
 
 ## 4. Initialize the Database
 
